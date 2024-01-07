@@ -15,6 +15,15 @@
             margin-bottom: 10px;
             width: 80%;
         }
+
+        textarea[disabled] {
+            background-color: #f0f0f0;
+        }
+
+        input[disabled] {
+            background-color: #f0f0f0;
+        }
+
         .langToggle {
             position: fixed;
             top: 10px;
@@ -33,15 +42,15 @@
     <div class="container">
         <h2 id="title">Text Prompt Composer</h2>
         <p id="description">Fill in the requirements and the corresponding text areas below. The compiled and formatted text will be displayed in real-time.</p>
-        <button onclick="compileText()" id="processButton">Process Text</button>
-        <textarea id="outputText" rows="10" cols="50">
+        <textarea id="outputText" rows="10" cols="50" disabled>
 Please enter text or click "Process Text" to begin.
         </textarea>
 
         <!-- Fixed Required Input Section -->
         <div>
-            <input type="text" id="fixedLabel" value="Requirements" readonly>
-            <textarea id="fixedText" rows="4" cols="50" placeholder="Enter requirement here" oninput="compileText()"></textarea>
+            <input type="text" id="fixedLabel" value="Requirements" readonly disabled>
+            <textarea id="fixedText" rows="4" cols="50" placeholder="Enter requirement here"
+                oninput="compileText()"></textarea>
         </div>
 
         <!-- Text Sections -->
@@ -102,7 +111,6 @@ Please enter text or click "Process Text" to begin.
             // Update text of elements based on the selected language
             document.getElementById("title").innerText = lang === 'en' ? 'Text Prompt Composer' : '多部分组合 ChatGPT 提示机';
             document.getElementById("description").innerText = lang === 'en' ? 'Fill in the requirements and the corresponding text areas below. The compiled and formatted text will be displayed in real-time.' : '在下方填写要求和相应的文本区域。编译和格式化的文本将实时显示。';
-            document.getElementById("processButton").innerText = lang === 'en' ? 'Process Text' : '处理文本';
             document.getElementById("fixedLabel").value = lang === 'en' ? 'Requirements' : '要求';
             document.getElementById("fixedText").placeholder = lang === 'en' ? 'Enter requirement here' : '在此输入要求';
             for (let i = 1; i <= 10; i++) {
