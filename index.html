@@ -41,9 +41,9 @@
 
     <div class="container">
         <h2 id="title">Text Prompt Composer</h2>
-        <p id="description">Fill in the requirements and the corresponding text areas below. The compiled and formatted text will be displayed in real-time.</p>
+        <p id="description">Fill in the requirements and the corresponding text areas below. The generated and formatted text will be displayed in real-time. Once the result is generated, you can copy and paste it into a chatbot like ChatGPT.</p>
         <textarea id="outputText" rows="10" cols="50" disabled>
-Please enter text or click "Process Text" to begin.
+Please enter text.
         </textarea>
 
         <!-- Fixed Required Input Section -->
@@ -92,7 +92,7 @@ Please enter text or click "Process Text" to begin.
             }
 
             // Create final output or display sample/tutorial if empty
-            let finalOutput = output.length > 0 ? "Next I will give you:" : "Please enter text or click \"Process Text\" to begin.";
+            let finalOutput = output.length > 0 ? "Next I will give you:" : "Please enter text.";
             if (currentLang === 'cn') {
                 finalOutput = output.length > 0 ? "接下来我将给你:" : "请输入文本或者点击“处理文本”以开始。";
             }
@@ -110,7 +110,7 @@ Please enter text or click "Process Text" to begin.
 
             // Update text of elements based on the selected language
             document.getElementById("title").innerText = lang === 'en' ? 'Text Prompt Composer' : '多部分组合 ChatGPT 提示机';
-            document.getElementById("description").innerText = lang === 'en' ? 'Fill in the requirements and the corresponding text areas below. The compiled and formatted text will be displayed in real-time.' : '在下方填写要求和相应的文本区域。编译和格式化的文本将实时显示。';
+            document.getElementById("description").innerText = lang === 'en' ? 'Fill in the requirements and the corresponding text areas below. The generated and formatted text will be displayed in real-time. Once the result is generated, you can copy and paste it into a chatbot like ChatGPT.' : '在下方填写要求和相应的文本区域。生成和格式化的文本将实时显示。一旦生成出结果，您可以将其复制并粘贴到像ChatGPT这样的聊天机器人中。';
             document.getElementById("fixedLabel").value = lang === 'en' ? 'Requirements' : '要求';
             document.getElementById("fixedText").placeholder = lang === 'en' ? 'Enter requirement here' : '在此输入要求';
             for (let i = 1; i <= 10; i++) {
