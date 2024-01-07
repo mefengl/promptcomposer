@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Prompt Composer</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px;
+        }
+        textarea, input {
+            margin-bottom: 10px;
+            width: 80%;
+        }
+        .langToggle {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="langToggle">
+        <button onclick="toggleLanguage('en')">English</button>
+        <button onclick="toggleLanguage('cn')">中文</button>
+    </div>
+
+    <div class="container">
+        <h2 id="title">Text Prompt Composer</h2>
+        <p id="description">Fill in the requirements and the corresponding text areas below. The compiled and formatted text will be displayed in real-time.</p>
+        <button onclick="compileText()" id="processButton">Process Text</button>
+        <textarea id="outputText" rows="10" cols="50">
+Please enter text or click "Process Text" to begin.
+        </textarea>
+
+        <!-- Fixed Required Input Section -->
+        <div>
+            <input type="text" id="fixedLabel" value="Requirements" readonly>
+            <textarea id="fixedText" rows="4" cols="50" placeholder="Enter requirement here" oninput="compileText()"></textarea>
+        </div>
+
+        <!-- Text Sections -->
+        <div id="sections">
+            <!-- Generate 10 sections with labels and textareas -->
+            <script>
+                for (let i = 1; i <= 10; i++) {
+                    document.write(`
+                        <div>
+                            <input type="text" id="label${i}" placeholder="Label #${i}" oninput="compileText()">
+                            <textarea id="text${i}" rows="4" cols="50" placeholder="Your text here" oninput="compileText()"></textarea>
+                        </div>
+                    `);
+                }
+            </script>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = 'en'; // Default language
+
+        function compileText() {
+            let output = [];
+            let fixedLabel = document.getElementById("fixedLabel").value.trim();
+            let fixedText = document.getElementById("fixedText").value.trim();
+
+            // Process the fixed text area
+            if (fixedText) {
+                output.push(`"${fixedLabel}": "${fixedText}"`);
+            }
+
+            // Iterate through all textareas and process sections
+            for (let i = 1; i <= 10; i++) {
+                let label = document.getElementById(`label${i}`).value.trim();
+                let textArea = document.getElementById(`text${i}`);
+                if (textArea.value.trim() !== "") {
+                    output.push(`"${label || `Label #${i}`}": "${textArea.value.trim()}"`);
+                }
+            }
+
+            // Create final output or display sample/tutorial if empty
+            let finalOutput = output.length > 0 ? "Next I will give you:" : "Please enter text or click \"Process Text\" to begin.";
+            if (currentLang === 'cn') {
+                finalOutput = output.length > 0 ? "接下来我将给你:" : "请输入文本或者点击“处理文本”以开始。";
+            }
+            output.forEach(line => {
+                finalOutput += "\n" + line;
+            });
+
+            // Set final output to output textarea
+            document.getElementById("outputText").value = finalOutput;
+        }
+
+        function toggleLanguage(lang) {
+            // Update the current language
+            currentLang = lang;
+
+            // Update text of elements based on the selected language
+            document.getElementById("title").innerText = lang === 'en' ? 'Text Prompt Composer' : '多部分组合 ChatGPT 提示机';
+            document.getElementById("description").innerText = lang === 'en' ? 'Fill in the requirements and the corresponding text areas below. The compiled and formatted text will be displayed in real-time.' : '在下方填写要求和相应的文本区域。编译和格式化的文本将实时显示。';
+            document.getElementById("processButton").innerText = lang === 'en' ? 'Process Text' : '处理文本';
+            document.getElementById("fixedLabel").value = lang === 'en' ? 'Requirements' : '要求';
+            document.getElementById("fixedText").placeholder = lang === 'en' ? 'Enter requirement here' : '在此输入要求';
+            for (let i = 1; i <= 10; i++) {
+                document.getElementById(`label${i}`).placeholder = lang === 'en' ? `Label #${i}` : `标签 #${i}`;
+                document.getElementById(`text${i}`).placeholder = lang === 'en' ? 'Your text here' : '在这里输入你的文本';
+            }
+
+            // Update the output text for the current language
+            compileText(); // This will refresh the output text in the selected language
+        }
+
+        // Initial compilation to populate the output area with the selected language
+        window.onload = compileText;
+    </script>
+
+</body>
+</html>
