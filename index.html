@@ -87,7 +87,10 @@ Please enter text.
             </script>
         </div>
 
-        <button onclick="saveData()">Save</button>
+        <div style="display: flex; gap: 10px;">
+            <button onclick="saveData()">Save</button>
+            <button onclick="clearInputs()">Clear</button>
+        </div>
 
         <div class="savedItems" id="savedItems">
             <!-- Saved items will be listed here -->
@@ -162,6 +165,15 @@ Please enter text.
             }
             localStorage.setItem(savedName, JSON.stringify(dataToSave));
             loadSavedItems();
+        }
+
+        function clearInputs() {
+            document.getElementById("fixedText").value = "";
+            for (let i = 1; i <= 10; i++) {
+                document.getElementById(`label${i}`).value = "";
+                document.getElementById(`text${i}`).value = "";
+            }
+            compileText();
         }
 
         function loadData(savedName) {
